@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> spinnerAdapter;
 
     private FloatingActionButton fabMain, fabRefresh, fabViewDetails, fabGoBack, fabSettings;
-    private TextView fabRefreshLabel, fabDetailsLabel, fabGoBackLabel, fabSettingsLabel;
+    private View fabRefreshLabel, fabDetailsLabel, fabGoBackLabel, fabSettingsLabel;
     private boolean isFabMenuOpen = false;
 
     @Override

@@ -54,29 +54,31 @@ public class ResultsActivity extends AppCompatActivity {
                         View cardView = inflater.inflate(R.layout.item_yearly_summary_card, yearlySummaryContainer, false);
                         
                         TextView tvYear = cardView.findViewById(R.id.tv_year);
-                        TextView tvReadings = cardView.findViewById(R.id.tv_reading_count);
+                        com.google.android.material.chip.Chip chipReadings = cardView.findViewById(R.id.chip_reading_count);
                         TextView tvUnits = cardView.findViewById(R.id.tv_total_units);
                         TextView tvAmount = cardView.findViewById(R.id.tv_total_amount);
-                        TextView tvBorrowed = cardView.findViewById(R.id.tv_borrowed_readings);
+                        TextView tvCombinedBadge = cardView.findViewById(R.id.tv_combined_badge);
+                        
                         TextView tvSolarUnits = cardView.findViewById(R.id.tv_solar_units_per_day);
                         TextView tvSolarKw = cardView.findViewById(R.id.tv_solar_kw_req);
                         TextView tvSolarTotalKw = cardView.findViewById(R.id.tv_solar_total_kw_req);
 
-                        if (data.isCombined) {
-                            tvYear.setText(String.format(Locale.US, "Year %d (Combined)", data.year));
-                            tvBorrowed.setVisibility(View.VISIBLE);
-                            tvBorrowed.setText(String.format(Locale.US, "Borrowed Readings: %d", data.borrowedReadingCount));
-                        } else {
-                            tvYear.setText(String.format(Locale.US, "Year %d", data.year));
-                            tvBorrowed.setVisibility(View.GONE);
-                        }
-                        tvReadings.setText(String.format(Locale.US, "Readings: %d", data.readingCount));
-                        tvUnits.setText(String.format(Locale.US, "Total Units: %.2f", data.totalUnits));
-                        tvAmount.setText(String.format(Locale.US, "Total Amount: ₹%.2f", data.totalAmount));
+                        tvYear.setText(String.valueOf(data.year));
+                        chipReadings.setText(String.format(Locale.US, "%d Readings", data.readingCount));
 
-                        tvSolarUnits.setText(String.format(Locale.US, "Units/Day: %.4f", data.solarUnitsPerDay));
-                        tvSolarKw.setText(String.format(Locale.US, "kW Req: %.3f kW", data.solarKwReq));
-                        tvSolarTotalKw.setText(String.format(Locale.US, "Total kW Req: %.3f kW", data.solarTotalKwReq));
+                        if (data.isCombined) {
+                            tvCombinedBadge.setVisibility(View.VISIBLE);
+                            tvCombinedBadge.setText(String.format(Locale.US, "Combined Data (%d Borrowed Readings)", data.borrowedReadingCount));
+                        } else {
+                            tvCombinedBadge.setVisibility(View.GONE);
+                        }
+
+                        tvUnits.setText(String.format(Locale.US, "%.2f", data.totalUnits));
+                        tvAmount.setText(String.format(Locale.US, "₹%.2f", data.totalAmount));
+
+                        tvSolarUnits.setText(String.format(Locale.US, "%.2f", data.solarUnitsPerDay));
+                        tvSolarKw.setText(String.format(Locale.US, "%.2f kW", data.solarKwReq));
+                        tvSolarTotalKw.setText(String.format(Locale.US, "%.2f kW", data.solarTotalKwReq));
 
                         yearlySummaryContainer.addView(cardView);
                     }

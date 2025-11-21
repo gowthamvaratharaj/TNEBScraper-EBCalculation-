@@ -58,19 +58,28 @@
         android:layout_marginBottom="228dp"
         android:visibility="gone"
         app:fabSize="mini"
+        app:backgroundTint="?attr/colorSurface"
+        app:tint="?attr/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_preferences" />
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/fab_settings_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="238dp"
-        android:background="@drawable/fab_label_background"
-        android:padding="8dp"
-        android:text="Settings"
-        android:visibility="gone" />
+        android:layout_marginBottom="232dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Settings"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_go_back"
@@ -81,19 +90,28 @@
         android:layout_marginBottom="92dp"
         android:visibility="gone"
         app:fabSize="mini"
+        app:backgroundTint="?attr/colorSurface"
+        app:tint="?attr/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_revert" />
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/fab_go_back_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="102dp"
-        android:background="@drawable/fab_label_background"
-        android:padding="8dp"
-        android:text="Go Back"
-        android:visibility="gone" />
+        android:layout_marginBottom="96dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Go Back"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_refresh"
@@ -104,19 +122,28 @@
         android:layout_marginBottom="92dp"
         android:visibility="gone"
         app:fabSize="mini"
+        app:backgroundTint="?attr/colorSurface"
+        app:tint="?attr/colorPrimary"
         app:srcCompat="@android:drawable/ic_popup_sync" />
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/fab_refresh_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="102dp"
-        android:background="@drawable/fab_label_background"
-        android:padding="8dp"
-        android:text="Refresh"
-        android:visibility="gone" />
+        android:layout_marginBottom="96dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Refresh"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_view_details"
@@ -127,19 +154,28 @@
         android:layout_marginBottom="160dp"
         android:visibility="gone"
         app:fabSize="mini"
+        app:backgroundTint="?attr/colorSurface"
+        app:tint="?attr/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_info_details" />
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/fab_details_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="170dp"
-        android:background="@drawable/fab_label_background"
-        android:padding="8dp"
-        android:text="View Details"
-        android:visibility="gone" />
+        android:layout_marginBottom="164dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="View Details"
+            android:textStyle="bold"
+            android:textColor="?attr/colorPrimary"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_main"

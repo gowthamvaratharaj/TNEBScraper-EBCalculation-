@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Semantic Colors (Light Mode Default) -->
+    <color name="solar_background">#F1F8E9</color>
+    <color name="solar_text">#33691E</color>
+    <color name="solar_text_secondary">#558B2F</color>
+    <color name="warning_background">#FFF3E0</color>
+    <color name="warning_text">#E65100</color>
+    <color name="amount_text">#2E7D32</color>
 </resources>

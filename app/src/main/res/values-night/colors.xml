@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FFFFFFFF</color>
+    <color name="white">#FF000000</color>
+
+    <!-- Semantic Colors (Dark Mode) -->
+    <color name="solar_background">#1B5E20</color> <!-- Dark Green Background -->
+    <color name="solar_text">#A5D6A7</color>       <!-- Light Green Text -->
+    <color name="solar_text_secondary">#81C784</color>
+    <color name="warning_background">#E65100</color> <!-- Dark Orange Background -->
+    <color name="warning_text">#FFCC80</color>       <!-- Light Orange Text -->
+    <color name="amount_text">#66BB6A</color>        <!-- Light Green for Amount -->
+</resources>
