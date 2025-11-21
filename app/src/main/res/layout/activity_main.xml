@@ -1,19 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".MainActivity">
 
-    <TextView
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/loading_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Spinner
+        android:id="@+id/recent_service_numbers_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/native_service_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Service Number"
+        android:inputType="number"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/native_mobile_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Mobile Number"
+        android:inputType="phone"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/native_captcha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Captcha"
+        android:inputType="text"
+        android:visibility="gone" />
+
+    <!-- Speed Dial FAB Menu -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="160dp"
+        android:visibility="gone"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_myplaces"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/fab_home_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="170dp"
+        android:background="@drawable/fab_label_background"
+        android:padding="8dp"
+        android:text="Home"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_view_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_sort_by_size"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/fab_details_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/fab_label_background"
+        android:padding="8dp"
+        android.text="View Details"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        tools:visibility="visible" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.EBCalculation" parent="Base.Theme.EBCalculation" />
+
+    <style name="Theme.EBCalculation.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.EBCalculation.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
