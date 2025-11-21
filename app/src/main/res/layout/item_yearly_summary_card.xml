@@ -48,6 +48,49 @@
             android:layout_marginTop="4dp"
             tools:text="Total Amount: ₹21128.00" />
 
+        <TextView
+            android:id="@+id/tv_borrowed_readings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:visibility="gone"
+            tools:text="Borrowed Readings: 2"
+            tools:visibility="visible" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Solar Calculation"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/tv_solar_units_per_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Units/Day: 16.48" />
+
+        <TextView
+            android:id="@+id/tv_solar_kw_req"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            tools:text="kW Req: 2.75 kW" />
+
+        <TextView
+            android:id="@+id/tv_solar_total_kw_req"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            tools:text="Total kW Req: 3.05 kW" />
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

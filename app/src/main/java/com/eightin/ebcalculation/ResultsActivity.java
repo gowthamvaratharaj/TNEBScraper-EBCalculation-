@@ -57,11 +57,26 @@ public class ResultsActivity extends AppCompatActivity {
                         TextView tvReadings = cardView.findViewById(R.id.tv_reading_count);
                         TextView tvUnits = cardView.findViewById(R.id.tv_total_units);
                         TextView tvAmount = cardView.findViewById(R.id.tv_total_amount);
+                        TextView tvBorrowed = cardView.findViewById(R.id.tv_borrowed_readings);
+                        TextView tvSolarUnits = cardView.findViewById(R.id.tv_solar_units_per_day);
+                        TextView tvSolarKw = cardView.findViewById(R.id.tv_solar_kw_req);
+                        TextView tvSolarTotalKw = cardView.findViewById(R.id.tv_solar_total_kw_req);
 
-                        tvYear.setText(String.format(Locale.US, "Year %d", data.year));
+                        if (data.isCombined) {
+                            tvYear.setText(String.format(Locale.US, "Year %d (Combined)", data.year));
+                            tvBorrowed.setVisibility(View.VISIBLE);
+                            tvBorrowed.setText(String.format(Locale.US, "Borrowed Readings: %d", data.borrowedReadingCount));
+                        } else {
+                            tvYear.setText(String.format(Locale.US, "Year %d", data.year));
+                            tvBorrowed.setVisibility(View.GONE);
+                        }
                         tvReadings.setText(String.format(Locale.US, "Readings: %d", data.readingCount));
                         tvUnits.setText(String.format(Locale.US, "Total Units: %.2f", data.totalUnits));
                         tvAmount.setText(String.format(Locale.US, "Total Amount: ₹%.2f", data.totalAmount));
+
+                        tvSolarUnits.setText(String.format(Locale.US, "Units/Day: %.4f", data.solarUnitsPerDay));
+                        tvSolarKw.setText(String.format(Locale.US, "kW Req: %.3f kW", data.solarKwReq));
+                        tvSolarTotalKw.setText(String.format(Locale.US, "Total kW Req: %.3f kW", data.solarTotalKwReq));
 
                         yearlySummaryContainer.addView(cardView);
                     }

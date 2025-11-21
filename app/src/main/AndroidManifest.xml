@@ -27,6 +27,10 @@
             android:name=".ResultsActivity"
             android:label="Bill Details"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

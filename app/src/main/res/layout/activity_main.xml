@@ -31,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Service Number"
-        android:inputType="number"
         android:visibility="gone" />
 
     <EditText
@@ -39,7 +38,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Mobile Number"
-        android:inputType="phone"
         android:visibility="gone" />
 
     <EditText
@@ -52,30 +50,73 @@
 
     <!-- Speed Dial FAB Menu -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_home"
+        android:id="@+id/fab_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="228dp"
         android:visibility="gone"
         app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_menu_myplaces"
-        tools:visibility="visible" />
+        app:srcCompat="@android:drawable/ic_menu_preferences" />
 
     <TextView
-        android:id="@+id/fab_home_label"
+        android:id="@+id/fab_settings_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="170dp"
+        android:layout_marginBottom="238dp"
         android:background="@drawable/fab_label_background"
         android:padding="8dp"
-        android:text="Home"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:text="Settings"
+        android:visibility="gone" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_go_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="92dp"
+        android:visibility="gone"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
+
+    <TextView
+        android:id="@+id/fab_go_back_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="102dp"
+        android:background="@drawable/fab_label_background"
+        android:padding="8dp"
+        android:text="Go Back"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="92dp"
+        android:visibility="gone"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_popup_sync" />
+
+    <TextView
+        android:id="@+id/fab_refresh_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="102dp"
+        android:background="@drawable/fab_label_background"
+        android:padding="8dp"
+        android:text="Refresh"
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_view_details"
@@ -83,11 +124,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="160dp"
         android:visibility="gone"
         app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_menu_sort_by_size"
-        tools:visibility="visible" />
+        app:srcCompat="@android:drawable/ic_menu_info_details" />
 
     <TextView
         android:id="@+id/fab_details_label"
@@ -95,13 +135,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="170dp"
         android:background="@drawable/fab_label_background"
         android:padding="8dp"
-        android.text="View Details"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
+        android:text="View Details"
+        android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_main"
@@ -109,8 +147,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:visibility="gone"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        tools:visibility="visible" />
+        app:srcCompat="@android:drawable/ic_menu_more" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

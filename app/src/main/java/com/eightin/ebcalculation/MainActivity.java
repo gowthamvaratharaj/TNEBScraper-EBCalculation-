@@ -27,11 +27,14 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -65,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
     private List<String> recentServiceNumbers;
     private ArrayAdapter<String> spinnerAdapter;
 
+    private FloatingActionButton fabMain, fabRefresh, fabViewDetails, fabGoBack, fabSettings;
+    private TextView fabRefreshLabel, fabDetailsLabel, fabGoBackLabel, fabSettingsLabel;
+    private boolean isFabMenuOpen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +84,17 @@ public class MainActivity extends AppCompatActivity {
         nativeMobileNo = findViewById(R.id.native_mobile_no);
         nativeCaptcha = findViewById(R.id.native_captcha);
         recentServiceNumbersSpinner = findViewById(R.id.recent_service_numbers_spinner);
+
+        fabMain = findViewById(R.id.fab_main);
+        fabRefresh = findViewById(R.id.fab_refresh);
+        fabViewDetails = findViewById(R.id.fab_view_details);
+        fabGoBack = findViewById(R.id.fab_go_back);
+        fabRefreshLabel = findViewById(R.id.fab_refresh_label);
+        fabDetailsLabel = findViewById(R.id.fab_details_label);
+        fabGoBackLabel = findViewById(R.id.fab_go_back_label);
+        fabSettings = findViewById(R.id.fab_settings);
+        fabSettingsLabel = findViewById(R.id.fab_settings_label);
+
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         loadRecentServiceNumbers();
@@ -97,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Fetching Bill Details...");
         progressDialog.setCancelable(false);
@@ -129,15 +147,17 @@ public class MainActivity extends AppCompatActivity {
                 loadingSpinner.setVisibility(View.VISIBLE);
                 hideNativeInputs();
                 invalidateOptionsMenu();
+                closeFabMenu();
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 invalidateOptionsMenu();
+                fabMain.setVisibility(View.VISIBLE);
 
                 if (url.equals(HOME_URL)) {
-                     String js = "(function() {" +
+                    String js = "(function() {" +
                             "    function reportPosition(elementId, name) {" +
                             "        var el = document.getElementById(elementId);" +
                             "        if (el) {" +
@@ -168,9 +188,91 @@ public class MainActivity extends AppCompatActivity {
         addTextSyncing(nativeMobileNo, "billstatus:mobileno");
         addTextSyncing(nativeCaptcha, "billstatus:captcha");
 
+        fabMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFabMenuOpen) {
+                    closeFabMenu();
+                } else {
+                    openFabMenu();
+                }
+            }
+        });
+
+        fabRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webView.reload();
+                closeFabMenu();
+            }
+        });
+
+        fabViewDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webView.loadUrl("javascript:window.Android.processHTML(document.getElementsByTagName('html')[0].innerHTML);");
+                closeFabMenu();
+            }
+        });
+
+        fabGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webView.loadUrl(HOME_URL);
+                closeFabMenu();
+            }
+        });
+
+        fabSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                closeFabMenu();
+            }
+        });
+
         webView.loadUrl(HOME_URL);
     }
-    
+
+    private void openFabMenu() {
+        isFabMenuOpen = true;
+        fabMain.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
+        String url = webView.getUrl();
+        if (url != null && url.contains(DATA_URL_SUBSTRING)) {
+            fabGoBack.setVisibility(View.VISIBLE);
+            fabGoBackLabel.setVisibility(View.VISIBLE);
+            fabViewDetails.setVisibility(View.VISIBLE);
+            fabDetailsLabel.setVisibility(View.VISIBLE);
+            fabDetailsLabel.setVisibility(View.VISIBLE);
+            fabRefresh.setVisibility(View.GONE);
+            fabRefreshLabel.setVisibility(View.GONE);
+            fabSettings.setVisibility(View.VISIBLE);
+            fabSettingsLabel.setVisibility(View.VISIBLE);
+        } else {
+            fabRefresh.setVisibility(View.VISIBLE);
+            fabRefreshLabel.setVisibility(View.VISIBLE);
+            fabGoBack.setVisibility(View.GONE);
+            fabGoBackLabel.setVisibility(View.GONE);
+            fabViewDetails.setVisibility(View.GONE);
+            fabDetailsLabel.setVisibility(View.GONE);
+            fabSettings.setVisibility(View.VISIBLE);
+            fabSettingsLabel.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void closeFabMenu() {
+        isFabMenuOpen = false;
+        fabMain.setImageResource(android.R.drawable.ic_menu_more);
+        fabRefresh.setVisibility(View.GONE);
+        fabRefreshLabel.setVisibility(View.GONE);
+        fabViewDetails.setVisibility(View.GONE);
+        fabDetailsLabel.setVisibility(View.GONE);
+        fabGoBack.setVisibility(View.GONE);
+        fabGoBackLabel.setVisibility(View.GONE);
+        fabSettings.setVisibility(View.GONE);
+        fabSettingsLabel.setVisibility(View.GONE);
+    }
+
     private void showRestrictionDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Navigation Restricted")
@@ -229,13 +331,13 @@ public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
     private void loadRecentServiceNumbers() {
-        Set<String> savedNumbers = sharedPreferences.getStringSet(PREFS_KEY, new HashSet<>());
+        Set<String> savedNumbers = new HashSet<>(sharedPreferences.getStringSet(PREFS_KEY, new HashSet<>()));
         recentServiceNumbers = new ArrayList<>(savedNumbers);
         recentServiceNumbers.add(0, "Select a recent number");
     }
 
     private void saveRecentServiceNumber(String serviceNumber) {
-        Set<String> savedNumbers = sharedPreferences.getStringSet(PREFS_KEY, new HashSet<>());
+        Set<String> savedNumbers = new HashSet<>(sharedPreferences.getStringSet(PREFS_KEY, new HashSet<>()));
         if (savedNumbers.contains(serviceNumber)) {
             return;
         }
@@ -260,7 +362,7 @@ public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             mContext = c;
             density = c.getResources().getDisplayMetrics().density;
         }
-        
+
         @JavascriptInterface
         public void reportElementPosition(String name, float left, float top, float width, float height) {
             final int pxLeft = (int) (left * density);
@@ -287,6 +389,8 @@ public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(pxWidth, pxHeight);
                     params.leftMargin = pxLeft;
                     params.topMargin = pxTop;
+                    params.width = pxWidth;
+                    params.height = pxHeight;
                     targetView.setLayoutParams(params);
                     targetView.setVisibility(View.VISIBLE);
                     targetView.requestFocus();
@@ -303,7 +407,7 @@ public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             try {
                 Document doc = Jsoup.parse(html);
-                
+
                 // Part 1: Consumer Details
                 // ... (same as before)
                  java.util.function.Function<String, String> findValue = (labelText) -> {
@@ -363,7 +467,8 @@ public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 Elements consumptionTables = doc.select("table.ccbills");
                 Element consumptionTable = consumptionTables.size() > 1 ? consumptionTables.get(1) : null;
                 if (consumptionTable != null) {
-                    Map<Integer, YearlyConsumptionData> yearlyDataMap = new TreeMap<>(Collections.reverseOrder());
+                    // Collect all readings first
+                    List<Reading> allReadings = new ArrayList<>();
                     int failedRows = 0;
                     for (Element row : consumptionTable.select("tr")) {
                         if (row.hasClass("th1") || row.hasClass("th3") || row.hasClass("th6")) continue;
@@ -377,11 +482,7 @@ public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                                     int year = Integer.parseInt(dateStr.substring(dateStr.length() - 4));
                                     double units = Double.parseDouble(unitsStr);
                                     double amount = Double.parseDouble(amountStr);
-                                    YearlyConsumptionData data = yearlyDataMap.getOrDefault(year, new YearlyConsumptionData(year));
-                                    data.readingCount++;
-                                    data.totalUnits += units;
-                                    data.totalAmount += amount;
-                                    yearlyDataMap.put(year, data);
+                                    allReadings.add(new Reading(year, dateStr, units, amount));
                                 } else {
                                     failedRows++;
                                 }
@@ -391,13 +492,107 @@ public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                             }
                         }
                     }
+
+                    // Group by year
+                    Map<Integer, YearlyConsumptionData> yearlyDataMap = new TreeMap<>(Collections.reverseOrder());
+                    for (Reading reading : allReadings) {
+                        YearlyConsumptionData data = yearlyDataMap.getOrDefault(reading.year, new YearlyConsumptionData(reading.year));
+                        data.readings.add(reading);
+                        data.readingCount++;
+                        data.totalUnits += reading.units;
+                        data.totalAmount += reading.amount;
+                        yearlyDataMap.put(reading.year, data);
+                    }
+
+                    // Apply borrowing logic for the latest year
+                    if (!yearlyDataMap.isEmpty()) {
+                        int latestYear = yearlyDataMap.keySet().iterator().next();
+                        YearlyConsumptionData latestData = yearlyDataMap.get(latestYear);
+                        
+                        if (latestData.readingCount < 6) {
+                            int readingsNeeded = 6 - latestData.readingCount;
+                            // Find previous year
+                            Integer prevYear = null;
+                            for (Integer y : yearlyDataMap.keySet()) {
+                                if (y < latestYear) {
+                                    prevYear = y;
+                                    break;
+                                }
+                            }
+
+                            if (prevYear != null) {
+                                YearlyConsumptionData prevData = yearlyDataMap.get(prevYear);
+                                if (prevData != null && !prevData.readings.isEmpty()) {
+                                    // Create a copy for the combined data
+                                    YearlyConsumptionData combinedData = new YearlyConsumptionData(latestYear);
+                                    combinedData.readingCount = latestData.readingCount;
+                                    combinedData.totalUnits = latestData.totalUnits;
+                                    combinedData.totalAmount = latestData.totalAmount;
+                                    combinedData.readings.addAll(latestData.readings);
+                                    combinedData.isCombined = true;
+
+                                    int borrowedCount = 0;
+                                    for (Reading r : prevData.readings) {
+                                        if (borrowedCount >= readingsNeeded) break;
+                                        combinedData.totalUnits += r.units;
+                                        combinedData.totalAmount += r.amount;
+                                        combinedData.readingCount++; 
+                                        borrowedCount++;
+                                    }
+                                    combinedData.borrowedReadingCount = borrowedCount;
+                                    
+                                    // Add the combined data to the map with a temporary key or just add to list directly
+                                    // Since map key is Integer year, we can't put it there without overwriting or using a fake year.
+                                    // Better to add to the list directly after map values.
+                                    // But we need to calculate solar data for it too.
+                                    // We will do this in the loop below or right here if we have the values.
+                                    // Let's wait until we read the prefs below.
+                                    yearlyDataList.add(combinedData);
+                                }
+                            }
+                        }
+                    }
+
                     if (failedRows > 0) {
                         final int finalFailedRows = failedRows;
                         runOnUiThread(() -> {
                             Toast.makeText(mContext, "Could not parse " + finalFailedRows + " rows of consumption data.", Toast.LENGTH_LONG).show();
                         });
                     }
+                    
+                    // Read Solar Settings
+                    SharedPreferences settingsPrefs = getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE);
+                    int solarDays = settingsPrefs.getInt(SettingsActivity.KEY_SOLAR_DAYS, 300);
+                    int solarHours = settingsPrefs.getInt(SettingsActivity.KEY_SOLAR_HOURS, 6);
+                    float solarEfficiency = settingsPrefs.getFloat(SettingsActivity.KEY_SOLAR_EFFICIENCY, 0.9f);
+
+                    // Calculate solar data for all original years
+                    for (YearlyConsumptionData data : yearlyDataMap.values()) {
+                        data.calculateSolarData(solarDays, solarHours, solarEfficiency);
+                    }
+                    
                     yearlyDataList.addAll(yearlyDataMap.values());
+                    
+                    // Calculate solar data for combined entries too (which are already in yearlyDataList)
+                    // Note: yearlyDataList contains combined entries first, then we added map values.
+                    // Actually, we added combined to list, then added map values.
+                    // So we should iterate over the whole list to be safe and consistent.
+                    for (YearlyConsumptionData data : yearlyDataList) {
+                         data.calculateSolarData(solarDays, solarHours, solarEfficiency);
+                    }
+
+                    // Sort list: Combined year should probably be near the original year.
+                    // Currently: [Combined 2024, 2024, 2023, ...] (if added in this order)
+                    // yearlyDataMap.values() gives 2024, 2023...
+                    // So list will be [Combined 2024, 2024, 2023...]
+                    // Let's sort it to be safe: Descending year, with Combined appearing before (or after?) Original.
+                    // Let's put Combined first.
+                    Collections.sort(yearlyDataList, (o1, o2) -> {
+                        if (o1.year != o2.year) return o2.year - o1.year;
+                        if (o1.isCombined && !o2.isCombined) return -1;
+                        if (!o1.isCombined && o2.isCombined) return 1;
+                        return 0;
+                    });
                 }
             } catch (Exception e) {
                 Log.e(TAG, "HTML parsing failed", e);
@@ -420,6 +615,35 @@ public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         int readingCount = 0;
         double totalUnits = 0;
         double totalAmount = 0;
+        boolean isCombined = false;
+        int borrowedReadingCount = 0;
+        List<Reading> readings = new ArrayList<>();
+
+        // Solar Data
+        double solarUnitsPerDay;
+        double solarKwReq;
+        double solarTotalKwReq;
+
         YearlyConsumptionData(int year) { this.year = year; }
+
+        void calculateSolarData(int solarDays, int solarHours, float solarEfficiency) {
+            this.solarUnitsPerDay = this.totalUnits / (double) solarDays;
+            this.solarKwReq = this.solarUnitsPerDay / (double) solarHours;
+            this.solarTotalKwReq = this.solarKwReq / (double) solarEfficiency;
+        }
+    }
+
+    public static class Reading implements java.io.Serializable {
+        int year;
+        String date;
+        double units;
+        double amount;
+
+        Reading(int year, String date, double units, double amount) {
+            this.year = year;
+            this.date = date;
+            this.units = units;
+            this.amount = amount;
+        }
     }
 }
