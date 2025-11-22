@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String DATA_URL_SUBSTRING = "consDetails";
 
     private WebView webView;
-    private ProgressBar loadingSpinner;
+    private ProgressBar pageLoadingBar;
     private ProgressDialog progressDialog;
     private EditText nativeServiceNo, nativeMobileNo, nativeCaptcha;
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize views
         webView = findViewById(R.id.webview);
-        loadingSpinner = findViewById(R.id.loading_spinner);
+        pageLoadingBar = findViewById(R.id.page_loading_bar);
         nativeServiceNo = findViewById(R.id.native_service_no);
         nativeMobileNo = findViewById(R.id.native_mobile_no);
         nativeCaptcha = findViewById(R.id.native_captcha);
@@ -123,7 +123,17 @@ public class MainActivity extends AppCompatActivity {
         // Setup WebView
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(new WebAppInterface(this), "Android");
-        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    pageLoadingBar.setVisibility(View.GONE);
+                } else {
+                    pageLoadingBar.setVisibility(View.VISIBLE);
+                    pageLoadingBar.setProgress(newProgress);
+                }
+            }
+        });
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -144,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 webView.setVisibility(View.INVISIBLE);
-                loadingSpinner.setVisibility(View.VISIBLE);
+                pageLoadingBar.setVisibility(View.VISIBLE);
+                pageLoadingBar.setProgress(0);
                 hideNativeInputs();
                 invalidateOptionsMenu();
                 closeFabMenu();
@@ -180,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 webView.setVisibility(View.VISIBLE);
-                loadingSpinner.setVisibility(View.GONE);
+                pageLoadingBar.setVisibility(View.GONE);
             }
         });
 
